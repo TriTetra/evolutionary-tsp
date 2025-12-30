@@ -1,0 +1,52 @@
+[
+    {
+        "timestamp": "2025-12-30 03:26:44",
+        "run_name": "deneme",
+        "dataset": "berlin52",
+        "num_cities": 52,
+        "final_distance": 8533.11,
+        "initial_distance": 25512.66,
+        "improvement_pct": "66.55%",
+        "time_elapsed_sec": 10.27,
+        "best_found_at_gen": 770,
+        "total_generations": 780,
+        "gap_to_optimal": "13.14%",
+        "parameters": {
+            "pop_size": 310,
+            "generations": 780,
+            "mutation_rate": 0.042,
+            "elite_size": 6
+        },
+        "methods": {
+            "selection": "roulette",
+            "crossover": "cycle",
+            "mutation": "inversion",
+            "local_search": "2opt"
+        }
+    },
+    {
+        "timestamp": "2025-12-30 03:25:31",
+        "run_name": "Anonim Gezgin",
+        "dataset": "att532",
+        "num_cities": 532,
+        "final_distance": 444914.7,
+        "initial_distance": 1515084.37,
+        "improvement_pct": "70.63%",
+        "time_elapsed_sec": 30.22,
+        "best_found_at_gen": 992,
+        "total_generations": 994,
+        "gap_to_optimal": "1507.00%",
+        "parameters": {
+            "pop_size": 198,
+            "generations": 994,
+            "mutation_rate": 0.01,
+            "elite_size": 2
+        },
+        "methods": {
+            "selection": "tournament",
+            "crossover": "ordered",
+            "mutation": "inversion",
+            "local_search": "none"
+        }
+    }
+]

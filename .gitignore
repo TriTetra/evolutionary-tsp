@@ -33,7 +33,7 @@ ENV/
 .venv
 
 # Jupyter Notebook
-.ipynb_checkpoints
+# .ipynb_checkpoints
 
 # VS Code & IDE settings
 .vscode/

@@ -1,0 +1,17 @@
+{
+    "run_name": "Deney 5: FINAL BOSS KILLER (att532)",
+    "file_path": "data/att532.tsp",
+    "parameters": {
+        "pop_size": 200,
+        "generations": 3000,
+        "mutation_rate": 0.015,
+        "elite_size": 10
+    },
+    "methods": {
+        "selection": "tournament",
+        "crossover": "ordered",
+        "mutation": "inversion",
+        "local_search": "3opt"
+    },
+    "output": { "verbose": 1 }
+}
