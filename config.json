@@ -1,11 +1,11 @@
 {
-    "run_name": "Deney 5: FINAL BOSS KILLER (att532)",
+    "run_name": "Test 3: FINAL BOSS ROVANSI (att532)",
     "file_path": "data/att532.tsp",
     "parameters": {
-        "pop_size": 200,
-        "generations": 3000,
-        "mutation_rate": 0.015,
-        "elite_size": 10
+        "pop_size": 150,
+        "generations": 1500,
+        "mutation_rate": 0.01,
+        "elite_size": 4
     },
     "methods": {
         "selection": "tournament",
