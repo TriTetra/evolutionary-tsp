@@ -70,8 +70,13 @@ def main():
         return
         
     print(f"[Veri] TSP Dosyası Okunuyor: {relative_path}")
-    cities = read_tsp_file(tsp_file)
+
+    tsp_data = read_tsp_file(tsp_file)
+    cities = tsp_data['cities']
+    weight_type = tsp_data['edge_weight_type']
+
     print(f"[Veri] Toplam {len(cities)} şehir başarıyla yüklendi.")
+    print(f"[Veri] Hesaplama Tipi: {weight_type}")
 
     # 3. GENETİK ALGORİTMA MOTORUNU HAZIRLAMA
     params = config["parameters"]
@@ -98,7 +103,8 @@ def main():
         selection_method=methods["selection"],
         crossover_method=methods["crossover"],
         mutation_method=methods["mutation"],
-        local_search_method=methods["local_search"]
+        local_search_method=methods["local_search"],
+        edge_weight_type=weight_type
     )
 
 
