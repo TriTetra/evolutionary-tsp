@@ -1,11 +1,12 @@
 {
-    "run_name": "Test 3: FINAL BOSS ROVANSI (att532)",
+    "run_name": "Test 4: Akilli Durdurma (Smart Stop)",
     "file_path": "data/att532.tsp",
     "parameters": {
         "pop_size": 150,
-        "generations": 1500,
+        "generations": 3000, 
         "mutation_rate": 0.01,
-        "elite_size": 4
+        "elite_size": 4,
+        "stop_threshold": 10
     },
     "methods": {
         "selection": "tournament",

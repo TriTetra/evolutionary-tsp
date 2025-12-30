@@ -111,11 +111,16 @@ def main():
     # 4. EVRİMİ BAŞLATMA (RUN)
     print("\n🚀 Evrim Süreci Başlıyor...")
     start_time = time.time()
-    
+
+    stop_limit = params.get("stop_threshold", None)
+    if stop_limit:
+        print(f"🛑 Erken Durdurma Aktif: {stop_limit} nesil boyunca iyileşme olmazsa duracak.")
+
     # ARTIK 4 DEĞER DÖNÜYOR:
     best_route, best_distance, initial_dist, best_gen = ga.run(
         generations=params["generations"], 
-        verbose=config["output"].get("verbose", 1)
+        verbose=config["output"].get("verbose", 1),
+        stop_threshold=stop_limit
     )
     
     end_time = time.time()

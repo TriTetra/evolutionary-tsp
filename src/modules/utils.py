@@ -62,6 +62,7 @@ def read_tsp_file(filename:str) -> dict:
     return {'cities': cities, 'edge_weight_type': edge_weight_type}
 
 
+
 def compute_distance_matrix(cities: List[City], edge_weight_type: str = 'EUC_2D') -> np.ndarray:
     """
     Calculates NxN distance matrix based on edge_weight_type.
@@ -104,6 +105,7 @@ def compute_distance_matrix(cities: List[City], edge_weight_type: str = 'EUC_2D'
         dists = np.sqrt(np.sum(deltas**2, axis=-1))
 
     return dists
+
 
 
 def calculate_route_distance(route: List[int], distance_matrix: np.ndarray) -> float:

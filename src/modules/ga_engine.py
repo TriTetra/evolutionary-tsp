@@ -13,7 +13,6 @@ from . import optimization
 
 class GeneticAlgorithm:
 
-
     def __init__(
         self, 
         cities: List[City], 
@@ -55,7 +54,7 @@ class GeneticAlgorithm:
             route = random.sample(base_route, num_cities)
             self.population.append(route)
             
-        # first review
+        # İlk değerlendirme
         scores = self._evaluate_population()
         # Save initial state
         self.initial_distance = self.best_distance
@@ -70,7 +69,6 @@ class GeneticAlgorithm:
             if dist < self.best_distance:
                 self.best_distance = dist
                 self.best_route = list(route)
-                # Note: We will indicate which generation it was updated in during the run loop.
                 
         return scores
 
@@ -99,6 +97,7 @@ class GeneticAlgorithm:
 
         pop_with_scores.sort(key=lambda x: x[0])
         
+        # Elitizm: En iyileri koru
         for i in range(self.elite_size):
             children.append(pop_with_scores[i][1])
 
@@ -129,6 +128,7 @@ class GeneticAlgorithm:
         mutated_pop = []
 
         for idx, route in enumerate(children):
+            # Elit bireylere dokunma
             if idx < self.elite_size:
                 mutated_pop.append(route)
                 continue
@@ -147,11 +147,9 @@ class GeneticAlgorithm:
         return mutated_pop
 
 
-
-    def run(self, generations: int = 100, verbose: int = 1, progress_callback=None):
+    def run(self, generations: int = 100, verbose: int = 1, progress_callback=None, stop_threshold: int = None):
         """
-        progress_callback: (opsiyonel) İlerleme durumunu raporlayan bir fonksiyon.
-                           İmza: func(progress_ratio, current_gen, best_dist)
+        stop_threshold: (int) Eğer bu kadar nesil boyunca iyileşme olmazsa döngüyü kır.
         """
         if not self.population:
             self.initialize_population()
@@ -160,28 +158,41 @@ class GeneticAlgorithm:
         if verbose == 1:
             iterator = tqdm(iterator, desc="Evolving")
             
+        # --- Stability Counter ---
+        stability_counter = 0
+        
         for gen in iterator:
             prev_best = self.best_distance
             
             # 1. Değerlendirme
             scores = self._evaluate_population()
             
-            # İyileşme varsa kaydet
+            # --- İyileşme Kontrolü ---
             if self.best_distance < prev_best:
                 self.best_generation = gen
+                stability_counter = 0 # Sıfırla
+            else:
+                stability_counter += 1 # Artır
             
+            # --- Erken Durdurma Kontrolü ---
+            if stop_threshold and stability_counter >= stop_threshold:
+                if verbose > 0:
+                    print(f"\n✋ Stability Limit Reached ({stop_threshold} generations). Stopping Early!")
+                if progress_callback:
+                    progress_callback(1.0, gen, self.best_distance, "Kararlılık sınırına ulaşıldı. Erken durduruluyor.")
+                break
+            # -------------------------------
+
             self.fitness_history.append(self.best_distance)
             
             if verbose == 2 and gen % 10 == 0:
                 print(f"Gen {gen}: Best = {self.best_distance:.2f}")
             
-            # --- CALLBACK: Arayüze bilgi gönder ---
+            # --- Callback ---
             if progress_callback:
-                # Her nesilde arayüzü güncellemek yavaşlatabilir, %1'lik dilimlerde güncelleyelim
                 if gen % max(1, generations // 100) == 0:
                     progress_ratio = (gen + 1) / generations
                     progress_callback(progress_ratio, gen + 1, self.best_distance)
-            # --------------------------------------
 
             # 2. Seçim
             parent_pool = self._select_parents(scores)
