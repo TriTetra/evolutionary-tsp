@@ -1,16 +1,16 @@
 [
     {
-        "timestamp": "2025-12-30 02:16:38",
-        "run_name": "Deney 4: Agir Silah 3-Opt (Berlin52)",
+        "timestamp": "2025-12-30 04:40:15",
+        "run_name": "Test 2: Standart Kontrol (Berlin52)",
         "dataset": "berlin52",
         "num_cities": 52,
-        "final_distance": 7704.09,
-        "initial_distance": 25377.01,
-        "improvement_pct": "69.64%",
-        "time_elapsed_sec": 1.64,
-        "best_found_at_gen": 299,
+        "final_distance": 8568.59,
+        "initial_distance": 26650.98,
+        "improvement_pct": "67.85%",
+        "time_elapsed_sec": 1.22,
+        "best_found_at_gen": 204,
         "total_generations": 300,
-        "gap_to_optimal": "2.15%",
+        "gap_to_optimal": "13.61%",
         "parameters": {
             "pop_size": 100,
             "generations": 300,
@@ -20,233 +20,58 @@
         "methods": {
             "selection": "tournament",
             "crossover": "ordered",
-            "mutation": "inversion",
-            "local_search": "3opt"
-        }
-    },
-    {
-        "timestamp": "2025-12-30 02:17:08",
-        "run_name": "Deney 5: Grandmaster (Berlin52)",
-        "dataset": "berlin52",
-        "num_cities": 52,
-        "final_distance": 8268.88,
-        "initial_distance": 24815.63,
-        "improvement_pct": "66.68%",
-        "time_elapsed_sec": 8.42,
-        "best_found_at_gen": 602,
-        "total_generations": 1000,
-        "gap_to_optimal": "9.64%",
-        "parameters": {
-            "pop_size": 200,
-            "generations": 1000,
-            "mutation_rate": 0.015,
-            "elite_size": 6
-        },
-        "methods": {
-            "selection": "tournament",
-            "crossover": "ordered",
-            "mutation": "inversion",
+            "mutation": "swap",
             "local_search": "2opt"
         }
     },
     {
-        "timestamp": "2025-12-30 02:14:59",
-        "run_name": "Deney 1: Hizli Izci (Berlin52)",
-        "dataset": "berlin52",
-        "num_cities": 52,
-        "final_distance": 8376.65,
-        "initial_distance": 25573.9,
-        "improvement_pct": "67.25%",
-        "time_elapsed_sec": 0.46,
-        "best_found_at_gen": 197,
-        "total_generations": 200,
-        "gap_to_optimal": "11.07%",
+        "timestamp": "2025-12-30 04:39:52",
+        "run_name": "Test 1: Kalibrasyon (att48)",
+        "dataset": "att48",
+        "num_cities": 48,
+        "final_distance": 11083.0,
+        "initial_distance": 38757.0,
+        "improvement_pct": "71.40%",
+        "time_elapsed_sec": 2.07,
+        "best_found_at_gen": 486,
+        "total_generations": 500,
+        "gap_to_optimal": "4.28%",
         "parameters": {
-            "pop_size": 50,
-            "generations": 200,
+            "pop_size": 100,
+            "generations": 500,
             "mutation_rate": 0.02,
             "elite_size": 2
         },
         "methods": {
             "selection": "tournament",
             "crossover": "ordered",
-            "mutation": "swap",
-            "local_search": "2opt"
+            "mutation": "inversion",
+            "local_search": "3opt"
         }
     },
     {
-        "timestamp": "2025-12-30 02:16:22",
-        "run_name": "Deney 3: Mutasyon Canavari (Berlin52)",
-        "dataset": "berlin52",
-        "num_cities": 52,
-        "final_distance": 8669.6,
-        "initial_distance": 26120.29,
-        "improvement_pct": "66.81%",
-        "time_elapsed_sec": 2.14,
-        "best_found_at_gen": 499,
-        "total_generations": 500,
-        "gap_to_optimal": "14.95%",
+        "timestamp": "2025-12-30 05:05:25",
+        "run_name": "Test 3: FINAL BOSS ROVANSI (att532)",
+        "dataset": "att532",
+        "num_cities": 532,
+        "final_distance": 29429.0,
+        "initial_distance": 485961.0,
+        "improvement_pct": "93.94%",
+        "time_elapsed_sec": 1498.58,
+        "best_found_at_gen": 1499,
+        "total_generations": 1500,
+        "gap_to_optimal": "6.30%",
         "parameters": {
-            "pop_size": 100,
-            "generations": 500,
-            "mutation_rate": 0.1,
-            "elite_size": 2
-        },
-        "methods": {
-            "selection": "rank",
-            "crossover": "ordered",
-            "mutation": "insert",
-            "local_search": "2opt"
-        }
-    },
-    {
-        "timestamp": "2025-12-30 02:15:51",
-        "run_name": "Deney 2: Cesitlilik Ordusu (Berlin52)",
-        "dataset": "berlin52",
-        "num_cities": 52,
-        "final_distance": 8933.62,
-        "initial_distance": 26232.68,
-        "improvement_pct": "65.94%",
-        "time_elapsed_sec": 4.0,
-        "best_found_at_gen": 384,
-        "total_generations": 400,
-        "gap_to_optimal": "18.45%",
-        "parameters": {
-            "pop_size": 250,
-            "generations": 400,
+            "pop_size": 150,
+            "generations": 1500,
             "mutation_rate": 0.01,
             "elite_size": 4
         },
         "methods": {
-            "selection": "roulette",
-            "crossover": "cycle",
-            "mutation": "inversion",
-            "local_search": "2opt"
-        }
-    },
-    {
-        "timestamp": "2025-12-30 02:38:48",
-        "run_name": "Deney 4: Keskin Nisanci 3-Opt (att532)",
-        "dataset": "att532",
-        "num_cities": 532,
-        "final_distance": 92038.48,
-        "initial_distance": 1503044.45,
-        "improvement_pct": "93.88%",
-        "time_elapsed_sec": 638.98,
-        "best_found_at_gen": 996,
-        "total_generations": 1000,
-        "gap_to_optimal": "232.44%",
-        "parameters": {
-            "pop_size": 100,
-            "generations": 1000,
-            "mutation_rate": 0.01,
-            "elite_size": 2
-        },
-        "methods": {
             "selection": "tournament",
             "crossover": "ordered",
             "mutation": "inversion",
             "local_search": "3opt"
-        }
-    },
-    {
-        "timestamp": "2025-12-30 03:18:58",
-        "run_name": "Deney 5: FINAL BOSS KILLER (att532)",
-        "dataset": "att532",
-        "num_cities": 532,
-        "final_distance": 94349.92,
-        "initial_distance": 1531726.77,
-        "improvement_pct": "93.84%",
-        "time_elapsed_sec": 2363.84,
-        "best_found_at_gen": 2994,
-        "total_generations": 3000,
-        "gap_to_optimal": "240.79%",
-        "parameters": {
-            "pop_size": 200,
-            "generations": 3000,
-            "mutation_rate": 0.015,
-            "elite_size": 10
-        },
-        "methods": {
-            "selection": "tournament",
-            "crossover": "ordered",
-            "mutation": "inversion",
-            "local_search": "3opt"
-        }
-    },
-    {
-        "timestamp": "2025-12-30 02:27:48",
-        "run_name": "Deney 3: Kalabalik Ordu (att532)",
-        "dataset": "att532",
-        "num_cities": 532,
-        "final_distance": 97194.32,
-        "initial_distance": 1526019.55,
-        "improvement_pct": "93.63%",
-        "time_elapsed_sec": 173.66,
-        "best_found_at_gen": 1496,
-        "total_generations": 1500,
-        "gap_to_optimal": "251.06%",
-        "parameters": {
-            "pop_size": 300,
-            "generations": 1500,
-            "mutation_rate": 0.01,
-            "elite_size": 5
-        },
-        "methods": {
-            "selection": "roulette",
-            "crossover": "cycle",
-            "mutation": "inversion",
-            "local_search": "2opt"
-        }
-    },
-    {
-        "timestamp": "2025-12-30 02:24:35",
-        "run_name": "Deney 2: Maraton (att532)",
-        "dataset": "att532",
-        "num_cities": 532,
-        "final_distance": 97379.0,
-        "initial_distance": 1511678.5,
-        "improvement_pct": "93.56%",
-        "time_elapsed_sec": 110.52,
-        "best_found_at_gen": 2999,
-        "total_generations": 3000,
-        "gap_to_optimal": "251.73%",
-        "parameters": {
-            "pop_size": 100,
-            "generations": 3000,
-            "mutation_rate": 0.01,
-            "elite_size": 2
-        },
-        "methods": {
-            "selection": "tournament",
-            "crossover": "ordered",
-            "mutation": "inversion",
-            "local_search": "2opt"
-        }
-    },
-    {
-        "timestamp": "2025-12-30 02:22:13",
-        "run_name": "Deney 1: Kesif Timi (att532)",
-        "dataset": "att532",
-        "num_cities": 532,
-        "final_distance": 97669.19,
-        "initial_distance": 1532908.38,
-        "improvement_pct": "93.63%",
-        "time_elapsed_sec": 107.65,
-        "best_found_at_gen": 987,
-        "total_generations": 1000,
-        "gap_to_optimal": "252.77%",
-        "parameters": {
-            "pop_size": 100,
-            "generations": 1000,
-            "mutation_rate": 0.02,
-            "elite_size": 2
-        },
-        "methods": {
-            "selection": "tournament",
-            "crossover": "ordered",
-            "mutation": "swap",
-            "local_search": "2opt"
         }
     }
 ]
