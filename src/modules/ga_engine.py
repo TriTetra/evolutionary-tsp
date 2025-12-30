@@ -12,6 +12,8 @@ from . import mutation
 from . import optimization
 
 class GeneticAlgorithm:
+
+
     def __init__(
         self, 
         cities: List[City], 
@@ -21,26 +23,29 @@ class GeneticAlgorithm:
         selection_method: str = "tournament",
         crossover_method: str = "ordered",
         mutation_method: str = "inversion",
-        local_search_method: str = "none"
+        local_search_method: str = "none",
+        edge_weight_type: str = "EUC_2D"
     ):
         self.cities = cities
         self.pop_size = pop_size
         self.mutation_rate = mutation_rate
         self.elite_size = elite_size
-        self.distance_matrix = utils.compute_distance_matrix(cities)
+
+        self.distance_matrix = utils.compute_distance_matrix(cities, edge_weight_type)
         
         self.selection_method = selection_method
         self.crossover_method = crossover_method
         self.mutation_method = mutation_method
         self.local_search_method = local_search_method
         
-        # --- YENİ EKLENEN TAKİP DEĞİŞKENLERİ ---
+        # Tracking Variables
         self.population: List[List[int]] = []
         self.best_route: List[int] = []
         self.best_distance: float = float('inf')
-        self.initial_distance: float = 0.0  # Başlangıçtaki en iyi mesafe
-        self.best_generation: int = 0       # En iyiyi bulduğumuz nesil
+        self.initial_distance: float = 0.0  # Best distance at the start
+        self.best_generation: int = 0       # The generation that found the best.
         self.fitness_history: List[float] = []
+
 
     def initialize_population(self):
         self.population = []
@@ -50,10 +55,11 @@ class GeneticAlgorithm:
             route = random.sample(base_route, num_cities)
             self.population.append(route)
             
-        # İlk değerlendirme
+        # first review
         scores = self._evaluate_population()
-        # Başlangıç durumunu kaydet
+        # Save initial state
         self.initial_distance = self.best_distance
+
 
     def _evaluate_population(self) -> List[float]:
         scores = []
@@ -64,7 +70,7 @@ class GeneticAlgorithm:
             if dist < self.best_distance:
                 self.best_distance = dist
                 self.best_route = list(route)
-                # Not: Hangi nesilde güncellendiğini run döngüsünde işaretleyeceğiz
+                # Note: We will indicate which generation it was updated in during the run loop.
                 
         return scores
 
@@ -81,40 +87,52 @@ class GeneticAlgorithm:
         else:
             raise ValueError(f"Unknown selection method: {self.selection_method}")
 
+
     def _crossover_pairs(self, parent_pool: List[List[int]]) -> List[List[int]]:
         """Creates children using the selected crossover method."""
         children = []
+
         pop_with_scores = []
         for route in self.population:
              d = utils.calculate_route_distance(route, self.distance_matrix)
              pop_with_scores.append((d, route))
+
         pop_with_scores.sort(key=lambda x: x[0])
+        
         for i in range(self.elite_size):
             children.append(pop_with_scores[i][1])
-        remaining_slots = self.pop_size - self.elite_size
+
+        # Fill in the rest
         i = 0
         while len(children) < self.pop_size:
             p1 = parent_pool[i % len(parent_pool)]
             p2 = parent_pool[(i + 1) % len(parent_pool)]
+
             if self.crossover_method == "ordered":
                 c1, c2 = crossover.ordered_crossover(p1, p2)
             elif self.crossover_method == "cycle":
                 c1, c2 = crossover.cycle_crossover(p1, p2)
             else:
                  c1, c2 = crossover.ordered_crossover(p1, p2)
+
             children.append(c1)
             if len(children) < self.pop_size:
                 children.append(c2)
+
             i += 2
+
         return children
+
 
     def _mutate_population(self, children: List[List[int]]) -> List[List[int]]:
         """Applies mutation."""
         mutated_pop = []
+
         for idx, route in enumerate(children):
             if idx < self.elite_size:
                 mutated_pop.append(route)
                 continue
+
             if self.mutation_method == "swap":
                 mutated_route = mutation.swap_mutation(list(route), self.mutation_rate)
             elif self.mutation_method == "insert":
@@ -123,10 +141,18 @@ class GeneticAlgorithm:
                 mutated_route = mutation.inversion_mutation(list(route), self.mutation_rate)
             else:
                 mutated_route = list(route)
+
             mutated_pop.append(mutated_route)
+
         return mutated_pop
 
-    def run(self, generations: int = 100, verbose: int = 1):
+
+
+    def run(self, generations: int = 100, verbose: int = 1, progress_callback=None):
+        """
+        progress_callback: (opsiyonel) İlerleme durumunu raporlayan bir fonksiyon.
+                           İmza: func(progress_ratio, current_gen, best_dist)
+        """
         if not self.population:
             self.initialize_population()
             
@@ -135,13 +161,12 @@ class GeneticAlgorithm:
             iterator = tqdm(iterator, desc="Evolving")
             
         for gen in iterator:
-            # Önceki en iyi skoru tut
             prev_best = self.best_distance
             
-            # 1. Evaluation
+            # 1. Değerlendirme
             scores = self._evaluate_population()
             
-            # Eğer iyileşme varsa, bu nesli kaydet
+            # İyileşme varsa kaydet
             if self.best_distance < prev_best:
                 self.best_generation = gen
             
@@ -150,17 +175,29 @@ class GeneticAlgorithm:
             if verbose == 2 and gen % 10 == 0:
                 print(f"Gen {gen}: Best = {self.best_distance:.2f}")
             
-            # 2. Selection
+            # --- CALLBACK: Arayüze bilgi gönder ---
+            if progress_callback:
+                # Her nesilde arayüzü güncellemek yavaşlatabilir, %1'lik dilimlerde güncelleyelim
+                if gen % max(1, generations // 100) == 0:
+                    progress_ratio = (gen + 1) / generations
+                    progress_callback(progress_ratio, gen + 1, self.best_distance)
+            # --------------------------------------
+
+            # 2. Seçim
             parent_pool = self._select_parents(scores)
-            # 3. Crossover
+            # 3. Çaprazlama
             children = self._crossover_pairs(parent_pool)
-            # 4. Mutation
+            # 4. Mutasyon
             next_generation = self._mutate_population(children)
-            # Update
+            # Güncelleme
             self.population = next_generation
             
-        # 5. Hybrid Optimization (Local Search)
+        # 5. Hibrit Optimizasyon (Local Search)
         if self.local_search_method in ["2opt", "3opt"]:
+            # Local search başladığını bildir
+            if progress_callback:
+                progress_callback(0.99, generations, self.best_distance, "Local Search (Optimize Ediliyor)...")
+
             if verbose > 0:
                 print(f"\nApplying {self.local_search_method} optimization...")
             
@@ -176,10 +213,6 @@ class GeneticAlgorithm:
             if opt_dist < self.best_distance:
                 self.best_distance = opt_dist
                 self.best_route = optimized_route
-                # Local Search ile iyileşirse, en iyi nesil "Local Search" olarak işaretlenebilir
-                # veya son nesil + 1 diyebiliriz.
                 print(f"Local Search Improved: {self.best_distance:.2f}")
 
-        # --- GÜNCELLEME: ARTIK DAHA FAZLA VERİ DÖNDÜRÜYORUZ ---
-        # (Rota, Mesafe, Başlangıç Mesafesi, Bulunduğu Nesil)
         return self.best_route, self.best_distance, self.initial_distance, self.best_generation
